@@ -1,0 +1,5 @@
+.test-data
+.terraform
+.terragrunt-cache
+*.tfstate
+*.tfstate.backup
