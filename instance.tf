@@ -2,7 +2,7 @@
 resource "aws_instance" "VPC_A_Public_AZ2_Server" {
   ami                  = "ami-013a28d7c2ea10269"
   instance_type        = "t2.micro"
-  iam_instance_profile = aws_iam_instance_profile.NetworkingWorkshop_Instance_Profile.name
+  iam_instance_profile = aws_iam_instance_profile.NetworkingWorkshopInstanceProfile.name
 
   network_interface {
     network_interface_id = aws_network_interface.VPC_A_Public_AZ2_Server_ENI.id
@@ -14,10 +14,31 @@ resource "aws_instance" "VPC_A_Public_AZ2_Server" {
   }
 }
 
+resource "aws_instance" "VPC_A_Private_AZ1_Server" {
+  ami                  = "ami-013a28d7c2ea10269"
+  instance_type        = "t2.micro"
+  iam_instance_profile = aws_iam_instance_profile.NetworkingWorkshopInstanceProfile.name
+
+  network_interface {
+    network_interface_id = aws_network_interface.VPC_A_Private_AZ1_Server_ENI.id
+    device_index         = 0
+  }
+
+  tags = {
+    Name = "VPC A Private AZ1 Server"
+  }
+}
+
 # Network Interface
 resource "aws_network_interface" "VPC_A_Public_AZ2_Server_ENI" {
   subnet_id       = aws_subnet.VPC_A_Public_Subnet_AZ2.id
   private_ips     = ["10.0.2.100"]
+  security_groups = [aws_security_group.VPC_A_Security_Group.id]
+}
+
+resource "aws_network_interface" "VPC_A_Private_AZ1_Server_ENI" {
+  subnet_id       = aws_subnet.VPC_A_Private_Subnet_AZ1.id
+  private_ips     = ["10.0.1.100"]
   security_groups = [aws_security_group.VPC_A_Security_Group.id]
 }
 
