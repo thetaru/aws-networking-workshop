@@ -51,6 +51,26 @@ resource "aws_subnet" "VPC_C_Private_Subnet_AZ2" {
   }
 }
 
+resource "aws_subnet" "VPC_C_TGW_Subnet_AZ1" {
+  vpc_id     = aws_vpc.VPC_C.id
+  cidr_block = "10.2.5.0/28"
+  availability_zone = "ap-northeast-1a"
+
+  tags = {
+    Name = "VPC C TGW Subnet AZ1"
+  }
+}
+
+resource "aws_subnet" "VPC_C_TGW_Subnet_AZ2" {
+  vpc_id     = aws_vpc.VPC_C.id
+  cidr_block = "10.2.5.16/28"
+  availability_zone = "ap-northeast-1c"
+
+  tags = {
+    Name = "VPC C TGW Subnet AZ2"
+  }
+}
+
 # Network ACL
 resource "aws_network_acl" "VPC_C_Workload_Subnets_NACL" {
   vpc_id = aws_vpc.VPC_C.id
@@ -125,6 +145,12 @@ resource "aws_route_table" "VPC_C_Private_Route_Table" {
   #   cidr_block = "10.0.0.0/16"
   #   vpc_peering_connection_id = aws_vpc_peering_connection.Peering_Connection_Between_VPC_A_And_VPC_C.id
   # }
+
+  # Transit Gateway
+  route {
+    cidr_block = "10.0.0.0/8" # 集約ルート
+    transit_gateway_id = aws_ec2_transit_gateway.TGW.id
+  }
 
   tags = {
     Name = "VPC C Private Route Table"
