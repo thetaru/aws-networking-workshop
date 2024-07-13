@@ -25,6 +25,6 @@ resource "aws_iam_role_policy_attachment" "NetworkingWorkshopEC2RolePolicy_Attac
 }
 
 resource "aws_iam_instance_profile" "NetworkingWorkshopInstanceProfile" {
-  name = "NetworkingWorkshop_Instance_Profile"
-  role = aws_iam_role.NetworkingWorkshop_EC2_Role.name
+  name = "NetworkingWorkshopInstanceProfile"
+  role = aws_iam_role.NetworkingWorkshopEC2Role.name
 }
