@@ -155,12 +155,12 @@ resource "aws_internet_gateway" "VPC_A_IGW" {
 }
 
 # NAT Gateway
-resource "aws_eip" "VPC_A_NATGW_Elastic_IP" {
+resource "aws_eip" "VPC_A_NATGW_EIP" {
   domain   = "vpc"
 }
 
 resource "aws_nat_gateway" "VPC_A_NATGW" {
-  allocation_id = aws_eip.VPC_A_NATGW_Elastic_IP.id
+  allocation_id = aws_eip.VPC_A_NATGW_EIP.id
   subnet_id     = aws_subnet.VPC_A_Public_Subnet_AZ1.id
 
   tags = {
