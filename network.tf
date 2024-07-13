@@ -50,3 +50,50 @@ resource "aws_subnet" "VPC_A_Private_Subnet_AZ2" {
     Name = "VPC A Private Subnet AZ2"
   }
 }
+
+# Network ACL
+resource "aws_network_acl" "VPC_A_Workload_Subnets_NACL" {
+  vpc_id = aws_vpc.VPC_A.id
+  
+  tags = {
+    Name = "VPC A Workload Subnets NACL"
+  }
+}
+
+resource "aws_network_acl_association" "VPC_A_Workload_Subnets_NACL_Association_Public_Subnet_AZ1" {
+  network_acl_id = aws_network_acl.VPC_A_Workload_Subnets_NACL.id
+  subnet_id      = aws_subnet.VPC_A_Public_Subnet_AZ1.id
+}
+
+resource "aws_network_acl_association" "VPC_A_Workload_Subnets_NACL_Association_Private_Subnet_AZ1" {
+  network_acl_id = aws_network_acl.VPC_A_Workload_Subnets_NACL.id
+  subnet_id      = aws_subnet.VPC_A_Private_Subnet_AZ1.id
+}
+
+resource "aws_network_acl_association" "VPC_A_Workload_Subnets_NACL_Association_Public_Subnet_AZ2" {
+  network_acl_id = aws_network_acl.VPC_A_Workload_Subnets_NACL.id
+  subnet_id      = aws_subnet.VPC_A_Public_Subnet_AZ2.id
+}
+
+resource "aws_network_acl_association" "VPC_A_Workload_Subnets_NACL_Association_Private_Subnet_AZ2" {
+  network_acl_id = aws_network_acl.VPC_A_Workload_Subnets_NACL.id
+  subnet_id      = aws_subnet.VPC_A_Private_Subnet_AZ2.id
+}
+
+resource "aws_network_acl_rule" "VPC_A_Workload_Subnets_NACL_Ingress_Rule" {
+  network_acl_id = aws_network_acl.VPC_A_Workload_Subnets_NACL.id
+  rule_number    = 100
+  egress         = false        # ingress rule
+  protocol       = -1           # all protocols
+  cidr_block     = "0.0.0.0/0"
+  rule_action    = "allow"
+}
+
+resource "aws_network_acl_rule" "VPC_A_Workload_Subnets_NACL_Egress_Rule" {
+  network_acl_id = aws_network_acl.VPC_A_Workload_Subnets_NACL.id
+  rule_number    = 100
+  egress         = true         # egress rule
+  protocol       = -1           # all protocols
+  cidr_block     = "0.0.0.0/0"
+  rule_action    = "allow"
+}
