@@ -201,37 +201,3 @@ resource "aws_nat_gateway" "VPC_B_NATGW" {
 
   depends_on = [aws_internet_gateway.VPC_B_IGW]
 }
-
-# VPC Endpoint
-resource "aws_vpc_endpoint" "VPC_B_KMS_Endpoint" {
-  vpc_id            = aws_vpc.VPC_B.id
-  service_name      = "com.amazonaws.ap-northeast-1.kms"
-  vpc_endpoint_type = "Interface"
-
-  subnet_ids = [
-    aws_subnet.VPC_B_Private_Subnet_AZ1.id,
-    aws_subnet.VPC_B_Private_Subnet_AZ2.id,
-  ]
-
-  private_dns_enabled = true
-
-  tags = {
-    Name = "VPC B KMS Endpoint"
-  }
-}
-
-resource "aws_vpc_endpoint" "VPC_B_S3_Endpoint" {
-  vpc_id            = aws_vpc.VPC_B.id
-  service_name      = "com.amazonaws.ap-northeast-1.s3"
-  vpc_endpoint_type = "Gateway"
-
-  route_table_ids  = [
-    aws_route_table.VPC_B_Public_Route_Table.id,
-    aws_route_table.VPC_B_Private_Route_Table.id,
-    aws_vpc.VPC_B.default_route_table_id,
-  ]
-
-  tags = {
-    Name = "VPC B S3 Endpoint"
-  }
-}
