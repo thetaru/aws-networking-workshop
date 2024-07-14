@@ -247,3 +247,26 @@ resource "aws_vpc_endpoint" "VPC_A_S3_Endpoint" {
     Name = "VPC A S3 Endpoint"
   }
 }
+
+# VPC Endpoint Policy
+# 当たり前だけど、VPCエンドポイントを経由する通信に対して有効
+# このワークショップだと対象バケットがap-northeast-1リージョンにない場合は適用されない
+data "aws_iam_policy_document" "VPC_A_S3_Endpoint_Policy_Document" {
+  statement {
+    effect    = "Allow"
+    actions   = [
+      "s3:Get*",
+      "s3:List*",
+    ]
+    resources = ["*"]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_vpc_endpoint_policy" "VPC_A_S3_Endpoint_Policy" {
+  vpc_endpoint_id = aws_vpc_endpoint.VPC_A_S3_Endpoint.id
+  policy = data.aws_iam_policy_document.VPC_A_S3_Endpoint_Policy_Document.json
+}
