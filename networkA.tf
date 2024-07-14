@@ -136,8 +136,8 @@ resource "aws_route_table" "VPC_A_Private_Route_Table" {
   vpc_id = aws_vpc.VPC_A.id
 
   route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.VPC_A_NATGW.id
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.VPC_A_NATGW.id
   }
 
   # VPC Peering Connection
