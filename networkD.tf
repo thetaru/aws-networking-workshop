@@ -10,21 +10,6 @@ resource "aws_vpc" "OnPremise_VPC" {
   }
 }
 
-# VPC DHCP Options
-resource "aws_vpc_dhcp_options" "OnPremise_VPC_DHCP_Options" {
-  domain_name                       = "example.corp"
-  domain_name_servers               = ["172.16.1.200"]
-
-  tags = {
-    Name = "OnPremise VPC DHCP Options"
-  }
-}
-
-resource "aws_vpc_dhcp_options_association" "OnPremise_VPC_DHCP_Options_Association" {
-  vpc_id          = aws_vpc.OnPremise_VPC.id
-  dhcp_options_id = aws_vpc_dhcp_options.OnPremise_VPC_DHCP_Options.id
-}
-
 # Subnet
 resource "aws_subnet" "OnPremise_Public_Subnet_AZ1" {
   vpc_id     = aws_vpc.OnPremise_VPC.id
