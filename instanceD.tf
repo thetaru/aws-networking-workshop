@@ -52,9 +52,10 @@ resource "aws_instance" "OnPremise_Dns_Server" {
 
 # Network Interface
 resource "aws_network_interface" "OnPremise_Customer_Gateway_Server_ENI" {
-  subnet_id       = aws_subnet.OnPremise_Public_Subnet_AZ1.id
-  private_ips     = ["172.16.0.100"]
-  security_groups = [aws_security_group.OnPremise_Server_Security_Group.id]
+  subnet_id         = aws_subnet.OnPremise_Public_Subnet_AZ1.id
+  private_ips       = ["172.16.0.100"]
+  security_groups   = [aws_security_group.OnPremise_Server_Security_Group.id]
+  source_dest_check = false
 }
 
 resource "aws_network_interface" "OnPremise_App_Server_ENI" {
