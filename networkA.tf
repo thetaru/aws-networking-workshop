@@ -127,6 +127,13 @@ resource "aws_route_table" "VPC_A_Public_Route_Table" {
     gateway_id = aws_internet_gateway.VPC_A_IGW.id
   }
 
+  # VPN Connection
+  # VPC A Public Subnet と オンプレミス間の通信を許可する場合はアンコメント
+  # route {
+  #   cidr_block = "172.16.0.0/16"
+  #   transit_gateway_id = aws_ec2_transit_gateway.TGW.id
+  # }
+
   tags = {
     Name = "VPC A Public Route Table"
   }
