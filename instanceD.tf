@@ -14,6 +14,8 @@ resource "aws_instance" "OnPremise_Customer_Gateway_Server" {
   tags = {
     Name = "OnPremise Customer Gateway Server"
   }
+
+  depends_on = [aws_route_table.OnPremise_Public_Route_Table]
 }
 
 resource "aws_instance" "OnPremise_App_Server" {
@@ -31,6 +33,8 @@ resource "aws_instance" "OnPremise_App_Server" {
   tags = {
     Name = "OnPremise App Server"
   }
+
+  depends_on = [aws_route_table.OnPremise_Public_Route_Table]
 }
 
 resource "aws_instance" "OnPremise_Dns_Server" {
@@ -48,6 +52,8 @@ resource "aws_instance" "OnPremise_Dns_Server" {
   tags = {
     Name = "OnPremise Dns Server"
   }
+
+  depends_on = [aws_route_table.OnPremise_Public_Route_Table]
 }
 
 # Network Interface
