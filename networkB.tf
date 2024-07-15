@@ -152,6 +152,12 @@ resource "aws_route_table" "VPC_B_Private_Route_Table" {
     transit_gateway_id = aws_ec2_transit_gateway.TGW.id
   }
 
+  # VPN Connection
+  route {
+    cidr_block = "172.16.0.0/16"
+    transit_gateway_id = aws_ec2_transit_gateway.TGW.id
+  }
+
   tags = {
     Name = "VPC B Private Route Table"
   }
