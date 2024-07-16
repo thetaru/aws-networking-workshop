@@ -1,7 +1,8 @@
 # aws-networking-workshop
+https://catalog.workshops.aws/networking/en-US
 ## Connecting to On-Premises
 ### Establish VPN Connection
-s2s VPNの冗長化を行う場合は以下の通り。  
+s2s VPNの冗長化を行う場合は以下の通り。ただし、挙動が不安定になるので注意。  
 `X.X.X.X`と`Y.Y.Y.Y`には、トンネルIPアドレスを指定する。  
 `Z.Z.Z.Z`には、カスタマーゲートウェイアドレスを指定する。
 ```
