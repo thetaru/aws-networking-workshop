@@ -14,8 +14,6 @@ resource "aws_instance" "OnPremise_Customer_Gateway_Server" {
   tags = {
     Name = "OnPremise Customer Gateway Server"
   }
-
-  depends_on = [aws_route_table.OnPremise_Public_Route_Table]
 }
 
 resource "aws_instance" "OnPremise_App_Server" {
@@ -33,8 +31,6 @@ resource "aws_instance" "OnPremise_App_Server" {
   tags = {
     Name = "OnPremise App Server"
   }
-
-  depends_on = [aws_route_table.OnPremise_Public_Route_Table]
 }
 
 resource "aws_instance" "OnPremise_Dns_Server" {
@@ -52,8 +48,6 @@ resource "aws_instance" "OnPremise_Dns_Server" {
   tags = {
     Name = "OnPremise Dns Server"
   }
-
-  depends_on = [aws_route_table.OnPremise_Public_Route_Table]
 }
 
 # Network Interface
@@ -78,8 +72,9 @@ resource "aws_network_interface" "OnPremise_Dns_Server_ENI" {
 
 # Elastic IP
 resource "aws_eip" "OnPremise_Customer_Gateway_Server_EIP" {
-  domain                    = "vpc"
+  instance                  = aws_instance.OnPremise_Customer_Gateway_Server.id
   network_interface         = aws_network_interface.OnPremise_Customer_Gateway_Server_ENI.id
+  domain                    = "vpc"
   associate_with_private_ip = "172.16.0.100"
 }
 
