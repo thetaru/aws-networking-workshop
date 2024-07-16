@@ -28,3 +28,39 @@ resource "aws_iam_instance_profile" "NetworkingWorkshopInstanceProfile" {
   name = "NetworkingWorkshopInstanceProfile"
   role = aws_iam_role.NetworkingWorkshopEC2Role.name
 }
+
+data "aws_iam_policy_document" "NetworkingWorkshopFlowLogsPolicyDocument" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["vpc-flow-logs.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "NetworkingWorkshopFlowLogsRole" {
+  name               = "NetworkingWorkshopFlowLogsRole"
+  assume_role_policy = data.aws_iam_policy_document.NetworkingWorkshopFlowLogsPolicyDocument.json
+}
+
+data "aws_iam_policy_document" "CloudWatchLogsWritePolicyDocument" {
+  statement {
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+    ]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "CloudWatchLogsWritePolicy" {
+  name   = "CloudWatchLogsWritePolicy"
+  role   = aws_iam_role.NetworkingWorkshopFlowLogsRole.name
+  policy = data.aws_iam_policy_document.CloudWatchLogsWritePolicyDocument.json
+}
